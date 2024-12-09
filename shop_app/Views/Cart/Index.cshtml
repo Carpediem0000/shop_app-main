@@ -1,0 +1,63 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model shop_app.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+
+<h2>Корзина</h2>
+
+@if (Model.Items.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Общая стоимость</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <form method="post" asp-action="UpdateQuantity">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.MaxQuantity" class="form-control" />
+                            <input type="hidden" name="availableQuantity" value="@item.MaxQuantity" />
+                            <button type="submit" class="btn btn-primary">Обновить</button>
+                        </form>
+                    </td>
+                    <td>@(item.Quantity * item.Price)</td>
+                    <td>
+                        <form method="post" asp-action="RemoveFromCart">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Общая сумма: @Model.Total</h3>
+
+    @* <a href="@Url.Action("Checkout", "Cart")" class="btn btn-primary">Оформить заказ</a>
+    <input type="submit" value="Оформить заказ" class="btn btn-primary" /> *@
+
+    <form asp-controller="Cart" asp-action="Checkout" method="post">
+        <button class="btn btn-danger" type="submit">Оформить заказ</button>
+    </form>
+}
+else
+{
+    <p>Корзина пуста.</p>
+}
+
+<a asp-controller="Products" asp-action="Index">Продолжить покупки</a>

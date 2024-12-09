@@ -1,0 +1,31 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model shop_app.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <img src="~/img/product_test.jpg" class="card-img-top" alt="@Html.DisplayFor(Model => Model.Name)" style="height: 200px; object-fit: cover;" />
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(Model => Model.Name)</h5>
+                <p class="card-text text-muted">@Html.DisplayFor(model => model.Description)</p>
+                <p class="card-text"><strong>Цена:</strong> @Html.DisplayFor(model => model.Price)</p>
+                <p class="card-text"><strong>Количество:</strong> @Html.DisplayFor(model => model.Quantity)</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@
+    <a asp-action="Index">Back to List</a>
+</div>
